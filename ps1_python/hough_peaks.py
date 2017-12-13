@@ -14,6 +14,7 @@ def hough_peaks(hough_acc, max_num_peaks, threshold=None, nhood=None):
         n, m = h.shape[0] / 50., h.shape[1] / 50.
     else:
         n, m = nhood
+    n2, m2 = int(n // 2), int(m // 2)
 
     peaks = []
     for i in range(max_num_peaks):
@@ -21,10 +22,9 @@ def hough_peaks(hough_acc, max_num_peaks, threshold=None, nhood=None):
         if h[rho, theta] < threshold:
             break
 
-        rh_l, rh_r = int(max(0, rho - n // 2)), int(min(rho + n // 2 + 1, int(h.shape[0])))
-        th_l, th_r = int(theta - m / 2), int(theta + m / 2 + 1)
-        for r in range(rh_l, rh_r):
-            np.put(h[r, :], range(th_l, th_r), [0], mode='wrap')  # circular indexing
+        rh_l, rh_r = max(0, rho - n2), min(rho + n2 + 1, h.shape[0])
+        th_l, th_r = max(0, theta - m2), min(theta + m2 + 1, h.shape[1])
+        h[rh_l:rh_r, th_l:th_r] = 0
         peaks.append((rho, theta))
 
     return np.array(peaks)

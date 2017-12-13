@@ -2,9 +2,6 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 
-def imshow_grayscale(image):
-    plt.imshow(image, "gray")
-
 #     % Draw lines found in an image using Hough transform.
 #     %
 #     % img: Image on top of which to draw lines
