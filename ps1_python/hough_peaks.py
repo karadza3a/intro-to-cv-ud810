@@ -5,7 +5,7 @@ import numpy as np
 #     % threshold: Threshold at which values of H are considered to be peaks
 #     % n, m: Size of the suppression neighborhood
 #     % http://www.mathworks.com/help/images/ref/houghpeaks.html
-def hough_peaks(hough_acc, max_num_peaks, threshold=None, nhood=None):
+def hough_peaks(hough_acc, max_num_peaks, threshold=None, nhood=None, verbose=False):
     h = hough_acc.copy()
     if threshold is None:
         threshold = 0.5 * np.max(h)
@@ -21,6 +21,8 @@ def hough_peaks(hough_acc, max_num_peaks, threshold=None, nhood=None):
         rho, theta = np.unravel_index(np.argmax(h), h.shape)
         if h[rho, theta] < threshold:
             break
+        if verbose:
+            print("%5d %5d %5.3f" % (rho, theta, h[rho, theta]))
 
         rh_l, rh_r = max(0, rho - n2), min(rho + n2 + 1, h.shape[0])
         th_l, th_r = max(0, theta - m2), min(theta + m2 + 1, h.shape[1])

@@ -16,6 +16,6 @@ def line(xs, theta, rho):  # theta in radians
 
 def hough_lines_draw(im, peaks):
     for rho, theta in peaks:
-        xs = np.array([0, im.shape[0]])
+        xs = np.array([0, im.shape[1]])
         xs, ys = line(xs, np.deg2rad(theta), rho)
         plt.plot(list(xs), ys, c="#00ff00")

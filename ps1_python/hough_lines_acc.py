@@ -6,7 +6,7 @@ import numpy as np
 def hough_lines_acc(image):
     n, m = image.shape[0], image.shape[1]
     max_rho = int(math.ceil(math.sqrt(n * n + m * m)))
-    acc = np.zeros((max_rho * 2, 180), "uint8")
+    acc = np.zeros((max_rho * 2, 180), "uint")
 
     thetas = np.deg2rad(np.arange(0, 180))
     theta_sins = np.sin(thetas)
