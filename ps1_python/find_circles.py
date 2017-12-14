@@ -1,11 +1,7 @@
-# function [centers, radii] = find_circles(BW, radius_range)
-#     % Find circles in given radius range using Hough transform.
-#     %
-#     % BW: Binary (black and white) image containing edge pixels
-#     % radius_range: Range of circle radii [min max] to look for, in pixels
-#
-#     % TODO: Your code here
-# end
+from ps1_python.hough_circles_acc import hough_circles_acc
+from ps1_python.hough_peaks import hough_peaks
 
-def find_circles():
-    pass
+
+#     % Find circles in given radius range using Hough transform.
+def find_circles(image, radii):
+    return [(radius, hough_peaks(hough_circles_acc(image, radius), 10, 2*radius, verbose=False)) for radius in radii]
