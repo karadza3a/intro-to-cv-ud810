@@ -8,7 +8,8 @@ def hough_lines_acc(image):
     max_rho = int(math.ceil(math.sqrt(n * n + m * m)))
     acc = np.zeros((max_rho * 2, 180), "uint")
 
-    thetas = np.deg2rad(np.arange(0, 180))
+    thetas_deg = np.arange(0, 180)
+    thetas = np.deg2rad(thetas_deg)
     theta_sins = np.sin(thetas)
     theta_coss = np.cos(thetas)
 
@@ -16,10 +17,7 @@ def hough_lines_acc(image):
 
     for (x, y) in zip(xs, ys):
         rho_candidates = np.round(x * theta_coss + y * theta_sins).astype("int")
-        for (theta,), rho in np.ndenumerate(rho_candidates):
-            if -max_rho <= rho < max_rho:
-                acc[rho + max_rho][theta] += 1
-    # normalize:
-    acc = acc - np.min(acc)
-    acc = np.round(acc * (255 / np.max(acc)))
-    return acc.astype("uint8"), max_rho
+        mask = (-max_rho <= rho_candidates) & (rho_candidates < max_rho)
+        acc[rho_candidates[mask] + max_rho, thetas_deg[mask]] += 1
+
+    return acc, max_rho

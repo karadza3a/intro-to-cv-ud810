@@ -30,3 +30,26 @@ def hough_peaks(hough_acc, max_num_peaks, threshold=None, nhood=None, verbose=Fa
         peaks.append((rho, theta))
 
     return np.array(peaks)
+
+
+def pen_lines_only(peaks, angle_threshold=5, distance_threshold=(10, 30)):
+    new_peaks = []
+    for i in range(len(peaks)):
+        for j in range(i + 1, len(peaks)):
+            rho1, theta1 = peaks[i]
+            rho2, theta2 = peaks[j]
+
+            delta_th = abs(theta2 - theta1)
+            delta_th = delta_th - 360 if delta_th > 180 else delta_th  # map to (-180,180]
+
+            if abs(delta_th) >= angle_threshold:
+                continue
+
+            if np.sign(theta1) != np.sign(theta2):
+                rho2 *= -1
+            delta_rh = abs(rho1 - rho2)
+
+            if distance_threshold[0] <= abs(delta_rh) < distance_threshold[1]:
+                new_peaks.append(peaks[i])
+                new_peaks.append(peaks[j])
+    return new_peaks
